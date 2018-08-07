@@ -25,7 +25,8 @@ class ScreenManagement(ScreenManager):
     pass
 
 class LoggedScreen(Screen):
-    pass
+    print ("LoggedScreen")
+
 
 
 
