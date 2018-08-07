@@ -1,0 +1,154 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+    transition: FadeTransition()
+
+    StartScreen:
+        id: start_screen
+	LoggedScreen:
+        id: Logged_screen
+	
+
+        
+
+    
+
+
+
+<StartScreen>:
+	name: 'start_screen'
+	canvas.before:
+        Color:
+            rgba: 1.40, 0.19, 0.255, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        cols: 1
+
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+			
+            Label:
+                text: 'Username'
+				color: 
+				halign: 'center'
+                font_size: 60
+                halign: 'left'
+                text_size: self.size
+
+            TextInput:
+                id: login
+                multiline:False
+                write_tab: False
+                font_size: 70
+                text_size: root.width-20, 20
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Label:
+                text: 'Password'
+				color: 
+				halign: 'center'
+				halign: 'left'
+                font_size: 60
+                text_size: self.size
+
+            TextInput:
+                id: password
+                multiline:False
+                write_tab: False
+                password:True
+                font_size: 70
+                text_size: root.width-25, 25
+                on_text_validate: root.login_validate(login.text,password.text)
+              
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Button:
+                color: 0,1,0,1
+                text: 'Login'
+                font_size: 30
+                size: self.size
+                on_press: root.http_request_myinv(login.text,password.text)
+                
+
+                size: self.texture_size
+
+
+            Button:
+                on_release: app.root.current = 'start_screen'
+                text: 'Go back'
+                font_size: 18
+                halign: 'center'
+                text_size: root.width-20, 20
+                size: self.size
+
+				
+<LoggedScreen>:
+	name: 'logged_screen'
+    GridLayout:
+        cols: 1
+
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Success'
+                font_size: 20
+                halign: 'left'
+                text_size: root.width-20, 20
+
+            
+    
+			
+			
+
+			
+			
+			
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+<MultiSelectOption@ToggleButton>:
+    size_hint: 1, None
+    height: '20dp'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
