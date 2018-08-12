@@ -4,7 +4,7 @@ Login App POST request
 * urllib3 version: 1.22  
   
   
-The app built with kivy on Python 3.6 sends an HTTP POST REQUEST to www.myinv.org/login and processes the return.   
+The app built with kivy on Python 2.7 sends an HTTP POST REQUEST to www.myinv.org/login and processes the return.   
 
 Now comes the odd part: Once I create the apk with buildozer (I'm using using the VM 17.04) the app crashes. 
   
