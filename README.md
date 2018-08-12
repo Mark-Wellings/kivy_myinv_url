@@ -55,7 +55,7 @@ Now comes the odd part: Once I create the apk with buildozer (I'm using using th
    
 Before building new apks I use: 
   
- > buildozer android debug deploy run  
+ > buildozer android clean 
    
      
   
