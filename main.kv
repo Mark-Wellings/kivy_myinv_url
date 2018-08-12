@@ -6,7 +6,13 @@ ScreenManagement:
     StartScreen:
         id: start_screen
 	LoggedScreen:
-        id: Logged_screen
+        id: logged_screen
+	ErrorScreen:
+        id: error_screen
+	FailScreen:
+        id: fail_screen
+	
+	
 	
 
         
@@ -14,57 +20,63 @@ ScreenManagement:
     
 
 
-
 <StartScreen>:
 	name: 'start_screen'
 	canvas.before:
         Color:
-            rgba: 1.40, 0.19, 0.255, 1
+            rgba: 1.40, 0.19, 0.255, 0.6
         Rectangle:
             pos: self.pos
             size: self.size
     GridLayout:
         cols: 1
+		height: self.minimum_height
 
 
-
-        BoxLayout:
-            orientation: 'horizontal'
+		BoxLayout:
+			orientation: 'vertical'
 			
-            Label:
-                text: 'Username'
-				color: 
-				halign: 'center'
-                font_size: 60
-                halign: 'left'
-                text_size: self.size
+			BoxLayout:
+				orientation: 'horizontal'	
+				Label:
+					text: 'Username'
+					color: 
+					halign: 'center'
+					font_size: 55
+					halign: 'left'
+					text_size: self.size
+					
 
-            TextInput:
-                id: login
-                multiline:False
-                write_tab: False
-                font_size: 70
-                text_size: root.width-20, 20
+				TextInput:
+					id: login
+					multiline:False
+					write_tab: False
+					font_size: 70
+					size_hint_y: None 
+					height: 80
+					text_size: self.size
 
-        BoxLayout:
-            orientation: 'horizontal'
+			BoxLayout:
+				orientation: 'horizontal'
 
-            Label:
-                text: 'Password'
-				color: 
-				halign: 'center'
-				halign: 'left'
-                font_size: 60
-                text_size: self.size
+				Label:
+					text: 'Password'
+					color: 
+					halign: 'center'
+					halign: 'left'
+					font_size: 55
+					text_size: self.size
 
-            TextInput:
-                id: password
-                multiline:False
-                write_tab: False
-                password:True
-                font_size: 70
-                text_size: root.width-25, 25
-                on_text_validate: root.login_validate(login.text,password.text)
+				TextInput:
+					id: password
+					multiline:False
+					write_tab: False
+					password:True
+					font_size: 70
+					text_size: self.size
+					size_hint_y: None 
+					height: 80
+					
               
         BoxLayout:
             orientation: 'horizontal'
@@ -72,8 +84,12 @@ ScreenManagement:
             Button:
                 color: 0,1,0,1
                 text: 'Login'
-                font_size: 30
-                size: self.size
+                font_size: 85
+				halign: 'center'
+				valign: 'middle'
+                size_hint_y: 0.95 
+				height: 500
+				text_size: self.size
                 on_press: root.http_request_myinv(login.text,password.text)
                 
 
@@ -81,12 +97,15 @@ ScreenManagement:
 
 
             Button:
-                on_release: app.root.current = 'start_screen'
-                text: 'Go back'
-                font_size: 18
+                text: 'back'
+                font_size: 85
                 halign: 'center'
-                text_size: root.width-20, 20
-                size: self.size
+				valign: 'middle'
+                text_size: self.size
+                size_hint_y: 0.95
+				height: 500
+				on_press: root.fail(login.text,password.text)
+				
 
 				
 <LoggedScreen>:
@@ -96,13 +115,38 @@ ScreenManagement:
 
 
 
-        BoxLayout:
-            orientation: 'vertical'
-            Label:
-                text: 'Success'
-                font_size: 20
-                halign: 'left'
-                text_size: root.width-20, 20
+        Label:
+			text: 'Success'
+            font_size: 20
+            halign: 'center'
+            text_size: root.width-20, 20
+			
+<ErrorScreen>:
+	name: 'error_screen'
+    GridLayout:
+        cols: 1
+
+
+
+        Label:
+			text: 'Error'
+            font_size: 20
+            halign: 'center'
+            text_size: root.width-20, 20
+
+<FailScreen>:
+	name: 'fail_screen'
+    GridLayout:
+        cols: 1
+
+
+
+        Label:
+			text: 'Fail'
+            font_size: 20
+            halign: 'center'
+            text_size: root.width-20, 20
+
 
             
     

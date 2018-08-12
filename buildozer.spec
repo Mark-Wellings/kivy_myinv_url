@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = myinv
+title = myinv_url
 
 # (str) Package name
 package.name = myinv
@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = hostpython2,kivy,mysql-connector-python,passlib
+requirements = kivy, urllib3, openssl
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -85,7 +85,7 @@ fullscreen = 0
 #android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = INTERNET
+android.permissions = INTERNET, ACCESS_NETWORK_STATE
 
 # (int) Android API to use
 #android.api = 19
@@ -220,7 +220,7 @@ android.arch = armeabi-v7a
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 1
+log_level = 2
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1
@@ -228,8 +228,8 @@ warn_on_root = 1
 # (str) Path to build artifact storage, absolute or relative to spec file
 build_dir = /home/kivy/Desktop/build/
 
-# (str) Path to build output (i.e. .apk, .ipa) storage
-# bin_dir = ./bin
+# (str) Path to build output (i.e. .apk, .ipa) storage 
+bin_dir = ./bin
 
 #    -----------------------------------------------------------------------------
 #    List as sections

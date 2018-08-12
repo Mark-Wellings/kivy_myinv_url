@@ -25,7 +25,14 @@ class ScreenManagement(ScreenManager):
     pass
 
 class LoggedScreen(Screen):
-    print ("LoggedScreen")
+    pass
+
+class ErrorScreen(Screen):
+    pass
+
+class FailScreen(Screen):
+    pass
+
 
 
 
@@ -35,6 +42,15 @@ class StartScreen(Screen):
     password_in = StringProperty('')
     wrong_cred = StringProperty('')
 
+    def error(self,username,password_in):
+        print ("There was an error")
+        self.manager.current = "error_screen"
+
+    def fail(self,username,password_in):
+        print ("Failed")
+        self.manager.current = "fail_screen"
+
+
     def resetForm(self):
         self.ids['login'].text = ""
         self.ids['password'].text = ""
@@ -42,7 +58,7 @@ class StartScreen(Screen):
         self.manager.current = "start_screen"
 
     def login_validate(self, req, result):
-        print("starting log_val")
+        print("starting log_validate")
         print(result)
         # print(result["status"])
 
@@ -64,7 +80,8 @@ class StartScreen(Screen):
         headers = {'Content-type': 'application/x-www-form-urlencoded',
                    'Accept': 'text/plain'}
 
-        self.request = UrlRequest('https://www.myinv.org/login', req_body=params, req_headers=headers,on_success=self.login_validate)
+        self.request = UrlRequest('https://www.myinv.org/login', req_body=params, req_headers=headers, on_success=self.login_validate,
+                                  on_failure=self.fail, on_error=self.error, method='POST', verify=False)
         print(self.request)
         print("Result: ", self.request.result)
 
