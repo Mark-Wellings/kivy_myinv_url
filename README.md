@@ -1,5 +1,5 @@
 # kivy_myinv_url
-Login App POST request  
+e-invoice creation app in conjunction with www.myinv.org/api  
 * Kivy version: 1.10.0  
 * urllib3 version: 1.22  
   
