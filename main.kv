@@ -1,0 +1,521 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+    transition: FadeTransition()
+
+    StartScreen:
+        id: start_screen		
+	LoggedScreen:
+        id: logged_screen
+		username: start_screen.text
+		sessionid: start_screen.sessionid
+	ItemScreen:
+	    id: item_screen
+		username: start_screen.text
+		invoice_number: createinvoice_screen.text
+		
+	SendmailScreen:
+	    id: sendmail_screen
+		username: start_screen.text
+		invoice_number: createinvoice_screen.text
+		purchase_order: item_screen.text
+		
+	SuccessScreen:
+	    id: success_screen
+	ErrorScreen:
+        id: error_screen
+	FailScreen:
+        id: fail_screen
+	CreateinvoiceScreen:
+        id: createinvoice_screen
+		username: start_screen.text
+		suppliername: logged_screen.suppliername
+
+
+<StartScreen>:
+	name: 'start_screen'
+	
+	canvas:
+	    Color:
+            rgba: 
+		Rectangle:
+			pos: 0, 565
+            size: 60, 30
+			source: 'logo.png'
+			
+	
+	canvas.before:
+        Color:
+            rgba: 1.40, 0.19, 0.255, 0.6 
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	
+	MyRow:
+	    orientation: 'vertical'
+		spacing: 15
+		Label:
+		    text: '[u]Your mobile e-invoice[/u]'
+			markup: True
+			font_size: 55				
+			size_hint_y: 0.20 
+			halign: 'left'
+		Label:
+			text: root.wrong_cred
+			font_size: 50
+			color: 
+			size_hint_y: 0.10
+			halign: 'center'
+	
+		MyRow:
+			orientation: 'vertical'
+			spacing: 10	
+			GridLayout:
+				cols: 2
+				height: self.minimum_height
+				
+				
+				
+				
+					
+				
+						
+				Label:
+					text: 'Username'
+					color: 
+					halign: 'center'
+					font_size: 75
+					halign: 'left'
+					text_size: self.size
+				TextInput:
+					id: username
+					multiline:False
+					write_tab: False
+					font_size: 50
+					size_hint_y: None 
+					height: 80
+					text_size: self.size
+
+			
+				
+				Label:
+					text: 'Password'
+					color: 
+					halign: 'center'
+					halign: 'left'
+					font_size: 75
+					text_size: self.size
+				TextInput:
+					id: password
+					multiline:False
+					write_tab: False
+					password:True
+					font_size: 50
+					text_size: self.size
+					size_hint_y: None 
+					height: 80
+					on_text_validate: root.http_request_myinv_login(username.text,password.text)
+							
+			  
+		
+			
+		MyRow:
+			Button:
+				color: 0,1,0,1
+				text: 'Login'
+				
+				font_size: 120
+				halign: 'center'
+				valign: 'middle'
+				size_hint_y: 0.95 
+				height: 500
+				text_size: self.size
+				size: self.texture_size
+				on_press: root.http_request_myinv_login(username.text,password.text)     
+
+
+            		
+
+				
+<LoggedScreen>:
+	name: 'logged_screen'
+	canvas.before:
+        Color:
+            rgba: 1.40, 0.19, 0.255, 0.6
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	MyRow:
+	    orientation: 'vertical'
+		spacing: 10		
+		
+		MyButton:
+			text: 'Session ID ' +root.sessionid+ ' '
+			font_size: 25
+			size_hint_y: 0.25 
+			height: 100
+			halign: 'left'
+			valign: 'middle'
+				
+				
+				
+		MyRow:
+			orientation: 'vertical'
+			spacing: 10
+			GridLayout:
+			    cols: 2				
+		
+				Label:
+					text: 'Dear ' +root.username+ ',\n you have successfully logged in'
+					font_size: 75
+					text_size: root.width, None
+					size: self.texture_size
+					halign: 'center'				
+											
+										
+				
+				
+		MyRow:
+			orientation: 'horizontal'
+			spacing: 10
+
+			Button:
+                color: 0,1,0,1
+				disabled: True
+                text: 'Create invoice'
+                font_size: 85
+				halign: 'center'
+				valign: 'middle'
+                size_hint_y: 0.95 
+				height: 500
+				text_size: self.size
+                on_press: root.createinvoice(root.sessionid)
+                size: self.texture_size
+
+
+            Button:
+                text: 'back'
+                font_size: 85
+                halign: 'center'
+				valign: 'middle'
+                text_size: self.size
+                size_hint_y: 0.95
+				height: 500
+				on_press: root.back()
+			
+			
+		
+            
+
+<CreateinvoiceScreen>:
+	name: 'createinvoice_screen'
+	canvas.before:
+        Color:
+            rgba: 1.40, 0.19, 0.255, 0.6
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	MyRow:
+	    orientation: 'vertical'
+		spacing: 10		
+		
+		MyButton:
+			text: ''+root.username+'\n'''+root.suppliername+''
+			font_size: 25
+			size_hint_y: 0.25 
+			height: 100
+			halign: 'left'
+		
+		MyRow:
+			orientation: 'vertical'
+			spacing: 10
+			GridLayout:
+			    cols: 2				
+		
+				Label:
+					text: 'Invoice number'
+					font_size: 45				
+					size_hint_y: 0.25 
+					halign: 'center'				
+				TextInput:
+					id: invoice_number	
+					multiline:False
+					write_tab: False
+					font_size: 40				
+					size_hint_y: 0.25									
+										
+				Label:
+					text: 'Delivery date'
+					font_size: 45				
+					size_hint_y: 0.25 
+					halign: 'center'
+				
+				TextInput:
+						
+					multiline:False
+					write_tab: False
+					font_size: 40				
+					size_hint_y: 0.25		
+				
+		MyRow:
+			orientation: 'horizontal'
+			spacing: 10
+
+			Button:
+				color: 0,1,0,1
+				text: 'Create invoice'
+				font_size: 85
+				halign: 'center'
+				valign: 'middle'
+				size_hint_y: 0.85
+				height: 500
+				text_size: self.size
+				on_press: root.http_request_myinv_createinvoice(invoice_number.text)
+				size: self.texture_size
+
+
+			Button:
+				text: 'back'
+				font_size: 85
+				halign: 'center'
+				valign: 'middle'
+				text_size: self.size
+				size_hint_y: 0.85
+				height: 500
+				on_press: root.back()
+				
+<ItemScreen>:
+	name: 'item_screen'
+	canvas.before:
+        Color:
+            rgba: 1.40, 0.19, 0.255, 0.6
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	MyRow:
+	    orientation: 'vertical'
+		spacing: 10		
+		
+		MyButton:
+			text: ''+root.username+'\n''invoice no: '+root.invoice_number+''
+			pos_hint: {'x': 0, 'y': 0}
+			font_size: 25
+			size_hint_y: 0.25 
+			height: 100
+			halign: 'left'
+		MyRow:
+			orientation: 'vertical'
+			spacing: 10
+			GridLayout:
+			    cols: 2				
+		
+				Label:
+					text: 'Purchaseorder'
+					font_size: 45				
+					size_hint_y: 0.25 
+					halign: 'center'				
+				TextInput:
+					id: purchase_order	
+					multiline:False
+					write_tab: False
+					font_size: 40				
+					size_hint_y: 0.25									
+										
+				Label:
+					text: 'Net amount'
+					font_size: 45				
+					size_hint_y: 0.25 
+					halign: 'center'
+				
+				TextInput:
+					multiline:False
+					write_tab: False
+					font_size: 40				
+					size_hint_y: 0.25
+				Label:
+					text: 'VAT percentage'
+					font_size: 45				
+					size_hint_y: 0.25 
+					halign: 'center'
+				
+				TextInput:
+					multiline:False
+					write_tab: False
+					font_size: 40				
+					size_hint_y: 0.25
+		MyRow:
+			orientation: 'horizontal'
+			spacing: 10
+
+			Button:
+				color: 0,1,0,1
+				text: 'Add values'
+				font_size: 85
+				halign: 'center'
+				valign: 'middle'
+				size_hint_y: 0.85
+				height: 500
+				text_size: self.size
+				on_press: root.http_request_myinv_purchaseorder(purchase_order.text, root.invoice_number)
+                size: self.texture_size
+
+
+			Button:
+				text: 'back'
+				font_size: 85
+				halign: 'center'
+				valign: 'middle'
+				text_size: self.size
+				size_hint_y: 0.85
+				height: 500
+				on_press: root.back()	
+<SendmailScreen>:
+	name: 'sendmail_screen'
+	canvas.before:
+        Color:
+            rgba: 1.40, 0.19, 0.255, 0.6
+        Rectangle:
+            pos: self.pos
+            size: self.size
+	MyRow:
+	    orientation: 'vertical'
+		spacing: 20		
+		
+		MyButton:
+			text: ''+root.username+'\n''invoice no: '+root.invoice_number+'\n''purchaseorder: '+root.purchase_order+''
+			pos_hint: {'x': 0, 'y': 0}
+			font_size: 25
+			size_hint_y: 0.35  
+			height: 100
+			halign: 'left'
+			
+	
+		BoxLayout:
+			orientation: 'horizontal'
+		    Label:
+                text: 'Send the einvoice via email'
+				font_size: 55
+                text_size: root.width, None
+                size: self.texture_size
+                halign: 'center'
+			
+									
+		BoxLayout:
+            orientation: 'horizontal'
+
+            Button:
+                color: 0,1,0,1
+                text: 'Issue invoice'
+                font_size: 85
+				halign: 'center'
+				valign: 'middle'
+                size_hint_y: 0.95 
+				height: 500
+				text_size: self.size
+				size: self.texture_size
+				on_press: root.http_request_myinv_sendmail(root.invoice_number)
+                
+
+
+            Button:
+                text: 'back'
+                font_size: 85
+                halign: 'center'
+				valign: 'middle'
+                text_size: self.size
+                size_hint_y: 0.95
+				height: 500
+				on_press: root.back()
+			
+			
+		
+<SuccessScreen>:
+	name: 'success_screen'
+    GridLayout:
+        cols: 1
+
+
+
+        Label:
+			text: 'Success'
+            font_size: 50
+            halign: 'center'
+            text_size: root.width-20, 20			
+			
+			
+			
+<ErrorScreen>:
+	name: 'error_screen'
+    GridLayout:
+        cols: 1
+
+
+
+        Label:
+			text: 'Error'
+            font_size: 50
+            halign: 'center'
+            text_size: root.width-20, 20
+
+<FailScreen>:
+	name: 'fail_screen'
+    GridLayout:
+        cols: 1
+
+
+
+        Label:
+			text: 'Fail'
+            font_size: 50
+            halign: 'center'
+            text_size: root.width-20, 20
+
+
+            
+    
+			
+			
+
+			
+			
+			
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+<MultiSelectOption@ToggleButton>:
+    size_hint: 1, None
+    height: '20dp'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
